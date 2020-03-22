@@ -32,17 +32,49 @@ namespace Ldv.Scrappy.Dal.Postgres
             await using var conn = new NpgsqlConnection(_parameters.ConnectionString);
             await conn.OpenAsync();
             var sql = @"
-select
-	*
-from
-	ruledata rd
-where
-	rd.ruleid = @ruleId
-order by
-	rd.""timestamp"" desc
-limit 1";
+SELECT
+    *
+FROM
+    ruledata rd
+WHERE
+    rd.ruleid = @ruleId
+ORDER BY
+    rd. "" timestamp "" DESC
+LIMIT 1;
+";
             return _mapper.Map<PsqlRuleDataDto, RuleData>(
                 await conn.QuerySingleOrDefaultAsync<PsqlRuleDataDto>(sql, new {ruleId}));
+        }
+
+        public async Task EnsureInitialized()
+        {
+            await using var conn = new NpgsqlConnection(_parameters.ConnectionString);
+            await conn.OpenAsync();
+            
+            var sqlCheck = @"
+SELECT
+    EXISTS (
+        SELECT
+        FROM
+            pg_tables
+        WHERE
+            schemaname = 'public'
+            AND tablename = 'ruledata');
+";
+            
+            if (!await conn.ExecuteScalarAsync<bool>(sqlCheck))
+            {
+                var sqlCreate = @"CREATE TABLE public.ruledata (
+    id serial NOT NULL,
+    ruleid text NOT NULL,
+    "" timestamp "" timestamp NOT NULL,
+    value text NOT NULL,
+    CONSTRAINT ruledata_pkey PRIMARY KEY (id),
+    CONSTRAINT ruledata_un UNIQUE (ruleid, "" timestamp "")
+);
+";
+                await conn.ExecuteAsync(sqlCreate);
+            }
         }
     }
 }

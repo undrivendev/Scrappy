@@ -13,7 +13,7 @@ using Serilog;
 using Serilog.Events;
 using SimpleInjector;
 
-namespace Ldv.Scrappy.Downloader.ConsoleApp
+namespace Ldv.Scrappy.ConsoleApp
 {
     public class Program
     {
@@ -50,14 +50,19 @@ namespace Ldv.Scrappy.Downloader.ConsoleApp
                     Ldv.Scrappy.Dal.Postgres.AutoMapperConfiguration.Configure(cfg);
                 });
                 config.AssertConfigurationIsValid();
-                container.Register<Bll.IMapper>(() => new AutoMapperWrapper(config.CreateMapper()));
+                var mapper = new AutoMapperWrapper(config.CreateMapper());
+                container.Register<Bll.IMapper>(() => mapper);
 
                 // services
-                container.Register<PsqlRepositoryParameters>(() => new PsqlRepositoryParameters()
+                var repoParameters = new PsqlRepositoryParameters()
                 {
                     ConnectionString = configuration["PsqlRepositoryConnectionString"],
-                });
-                container.Register<IRepository, PsqlRepository>();
+                };
+                container.Register(() => repoParameters);
+
+                var psqlRepo = new PsqlRepository(repoParameters, mapper);
+                container.Register(() => psqlRepo);
+                container.Register<IRepository>(() => psqlRepo);
                 var rules = configuration.GetSection("Rules").Get<Rule[]>();
                 container.Register(() => new ScrappyServiceParameters()
                 {
@@ -73,7 +78,9 @@ namespace Ldv.Scrappy.Downloader.ConsoleApp
                 container.Register<ScrappyService>();
 
                 container.Verify();
-
+                
+                // ensure schema initialized
+                await psqlRepo.EnsureInitialized();
                 var service = container.GetInstance<ScrappyService>();
                 await service.DownloadAndNotify();
 

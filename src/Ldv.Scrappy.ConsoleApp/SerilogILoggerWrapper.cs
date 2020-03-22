@@ -1,7 +1,7 @@
 using Ldv.Scrappy.Bll;
 using Serilog.Events;
 
-namespace Ldv.Scrappy.Downloader.ConsoleApp
+namespace Ldv.Scrappy.ConsoleApp
 {
     public class SerilogILoggerWrapper : ILogger
     {

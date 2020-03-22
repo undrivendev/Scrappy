@@ -5,6 +5,7 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
+        <RootNamespace>Ldv.Scrappy.Downloader.ConsoleApp</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,8 +22,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\Ldv.Scrappy.Bll\Ldv.Scrappy.Bll.csproj" />
-      <ProjectReference Include="..\src\Ldv.Scrappy.Dal.Postgres\Ldv.Scrappy.Dal.Postgres.csproj" />
+      <ProjectReference Include="..\Ldv.Scrappy.Bll\Ldv.Scrappy.Bll.csproj" />
+      <ProjectReference Include="..\Ldv.Scrappy.Dal.Postgres\Ldv.Scrappy.Dal.Postgres.csproj" />
     </ItemGroup>
 
     <ItemGroup>

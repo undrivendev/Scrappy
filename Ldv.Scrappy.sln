@@ -4,7 +4,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ldv.Scrappy.Bll", "src\Ldv.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ldv.Scrappy.Dal.Postgres", "src\Ldv.Scrappy.Dal.Postgres\Ldv.Scrappy.Dal.Postgres.csproj", "{168C372C-5B61-43BB-9B13-C2A175B57B80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ldv.Scrappy.Downloader.ConsoleApp", "Ldv.Scrappy.Downloader.ConsoleApp\Ldv.Scrappy.Downloader.ConsoleApp.csproj", "{1F298C37-DD7A-4920-B17B-5A37370FBB5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{2E27FECD-730A-491A-A7CD-88770ECAEDAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ldv.Scrappy.ConsoleApp", "src\Ldv.Scrappy.ConsoleApp\Ldv.Scrappy.ConsoleApp.csproj", "{E743C084-6B79-4C7C-8717-795BF9441C5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,6 +14,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E27FECD-730A-491A-A7CD-88770ECAEDAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E27FECD-730A-491A-A7CD-88770ECAEDAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{638201A6-9A96-4717-90A1-4E3C76031FCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{638201A6-9A96-4717-90A1-4E3C76031FCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{638201A6-9A96-4717-90A1-4E3C76031FCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -20,9 +24,9 @@ Global
 		{168C372C-5B61-43BB-9B13-C2A175B57B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{168C372C-5B61-43BB-9B13-C2A175B57B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{168C372C-5B61-43BB-9B13-C2A175B57B80}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1F298C37-DD7A-4920-B17B-5A37370FBB5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1F298C37-DD7A-4920-B17B-5A37370FBB5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1F298C37-DD7A-4920-B17B-5A37370FBB5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1F298C37-DD7A-4920-B17B-5A37370FBB5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E743C084-6B79-4C7C-8717-795BF9441C5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E743C084-6B79-4C7C-8717-795BF9441C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E743C084-6B79-4C7C-8717-795BF9441C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E743C084-6B79-4C7C-8717-795BF9441C5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
