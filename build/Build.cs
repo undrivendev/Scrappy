@@ -1,6 +1,9 @@
 using System;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using Nuke.Common;
+using Nuke.Common.CI;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
@@ -23,8 +26,7 @@ class Build : NukeBuild
     ///   - JetBrains Rider            https://nuke.build/rider
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
-
-    public static int Main () => Execute<Build>(x => x.Compile);
+    public static int Main() => Execute<Build>(x => x.Compile);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
@@ -35,19 +37,23 @@ class Build : NukeBuild
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath OutputDirectory => RootDirectory / "output";
+    AbsolutePath PublishDirectory => OutputDirectory / "publish";
+    AbsolutePath ArtifactsDirectory => OutputDirectory / "artifacts";
+
+    string[] ProjectNames => new string[] {"Ldv.Scrappy.ConsoleApp"};
 
     Target Clean => _ => _
         .Before(Restore)
         .Executes(() =>
         {
-            SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
+            SourceDirectory.GlobDirectories("**/bin", "**/obj", "output").ForEach(DeleteDirectory);
             EnsureCleanDirectory(OutputDirectory);
         });
 
     Target Restore => _ => _
         .Executes(() =>
         {
-            DotNetRestore(s => s
+            DotNetRestore(_ => _
                 .SetProjectFile(Solution));
         });
 
@@ -55,13 +61,43 @@ class Build : NukeBuild
         .DependsOn(Restore)
         .Executes(() =>
         {
-            DotNetBuild(s => s
+            DotNetBuild(_ => _
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
-                .SetInformationalVersion(GitVersion.InformationalVersion)
+                .SetInformationalVersion(GitVersion.MajorMinorPatch)
                 .EnableNoRestore());
         });
 
+    Target Publish => _ => _
+        .DependsOn(Clean, Restore)
+        .Executes(() =>
+        {
+            foreach (var ProjectName in ProjectNames)
+            {
+                DotNetPublish(_ => _
+                    .SetOutput(PublishDirectory / ProjectName)
+                    .SetProject(Solution.GetProject(ProjectName))
+                    .SetConfiguration(Configuration)
+                    .SetAssemblyVersion(GitVersion.AssemblySemVer)
+                    .SetFileVersion(GitVersion.AssemblySemFileVer)
+                    .SetInformationalVersion(GitVersion.MajorMinorPatch)
+                    .EnableNoRestore());
+            }
+        });
+
+    Target Package => _ => _
+        .DependsOn(Publish)
+        .Produces(ProjectNames
+            .Select((ProjectName) => (ArtifactsDirectory / ProjectName / $"{ProjectName}*.zip").ToString()).ToArray())
+        .Executes(() =>
+        {
+            foreach (var ProjectName in ProjectNames)
+            {
+                Directory.CreateDirectory(ArtifactsDirectory / ProjectName);
+                ZipFile.CreateFromDirectory(PublishDirectory / ProjectName,
+                    ArtifactsDirectory / ProjectName / $"{ProjectName}-{GitVersion.MajorMinorPatch}.zip");
+            }
+        });
 }
