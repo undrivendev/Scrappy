@@ -1,0 +1,34 @@
+stages:
+  - stage: build
+    displayName: 'Build'
+    pool:
+      vmImage: 'ubuntu-latest'
+    jobs:
+      - job: build_test_package
+        displayName: 'Build, Test, Package'
+        dependsOn: [ ]
+        steps:
+          - task: UseDotNet@2
+            displayName: "Use .NET Core 3.1.x"
+            inputs:
+              version: '3.1.x'
+              packageType: sdk
+          - task: CmdLine@2
+            inputs:
+              script: 'chmod +x ./build.sh'
+          - task: CmdLine@2
+            inputs:
+              script: './build.sh Clean --skip'
+          - task: CmdLine@2
+            inputs:
+              script: './build.sh Restore --skip'
+          - task: CmdLine@2
+            inputs:
+              script: './build.sh Publish --skip'
+          - task: CmdLine@2
+            inputs:
+              script: './build.sh Package --skip'
+          - task: PublishBuildArtifacts@1
+            inputs:
+              artifactName: Texa.Cloud.Udm.Search.WebApi
+              pathtoPublish: 'output/artifacts/Ldv.Scrappy.ConsoleApp'
