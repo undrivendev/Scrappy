@@ -30,5 +30,5 @@ stages:
               script: './build.sh Package --skip'
           - task: PublishBuildArtifacts@1
             inputs:
-              artifactName: Texa.Cloud.Udm.Search.WebApi
+              artifactName: Ldv.Scrappy.ConsoleApp
               pathtoPublish: 'output/artifacts/Ldv.Scrappy.ConsoleApp'
