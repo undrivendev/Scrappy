@@ -1,6 +1,4 @@
-using System;
 using System.Threading.Tasks;
-using AutoMapper;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using Ldv.Scrappy.Bll;
