@@ -28,6 +28,11 @@ stages:
           - task: CmdLine@2
             inputs:
               script: './build.sh Package --skip'
+          - task: CmdLine@2
+            inputs:
+              script: |
+                cd output/artifacts/Ldv.Scrappy.ConsoleApp
+                ls -la
           - task: PublishBuildArtifacts@1
             inputs:
               artifactName: Ldv.Scrappy.ConsoleApp
