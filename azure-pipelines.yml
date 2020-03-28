@@ -32,7 +32,7 @@ stages:
             inputs:
               script: |
                 cd output/publish/Ldv.Scrappy.ConsoleApp
-                ls -la
+                ls -laR
           - task: PublishBuildArtifacts@1
             inputs:
               artifactName: Ldv.Scrappy.ConsoleApp
