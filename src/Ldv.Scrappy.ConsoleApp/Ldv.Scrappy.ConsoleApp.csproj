@@ -5,8 +5,10 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
+        <PublishSingleFile>true</PublishSingleFile>
         <RootNamespace>Ldv.Scrappy.ConsoleApp</RootNamespace>
-
+        <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+        <PublishTrimmed>true</PublishTrimmed>
     </PropertyGroup>
 
     <ItemGroup>
@@ -26,20 +28,5 @@
       <ProjectReference Include="..\Ldv.Scrappy.Bll\Ldv.Scrappy.Bll.csproj" />
       <ProjectReference Include="..\Ldv.Scrappy.Dal.Postgres\Ldv.Scrappy.Dal.Postgres.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <None Update="appsettings.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="appsettings.Production.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="appsettings.Development.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Dockerfile">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
+    
 </Project>

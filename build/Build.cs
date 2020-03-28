@@ -76,14 +76,21 @@ class Build : NukeBuild
         {
             foreach (var ProjectName in ProjectNames)
             {
+                var project = Solution.GetProject(ProjectName);
                 DotNetPublish(_ => _
                     .SetOutput(PublishDirectory / ProjectName)
-                    .SetProject(Solution.GetProject(ProjectName))
+                    .SetProject(project)
                     .SetConfiguration(Configuration)
                     .SetAssemblyVersion(GitVersion.AssemblySemVer)
                     .SetFileVersion(GitVersion.AssemblySemFileVer)
                     .SetInformationalVersion(GitVersion.MajorMinorPatch)
                     .EnableNoRestore());
+                var configurationFiles = Directory.GetFiles(project.Directory, "appsettings*");
+                var dockerfiles = Directory.GetFiles(project.Directory, "Dockerfile*");
+                foreach (var c in configurationFiles.Concat(dockerfiles))
+                {
+                    File.Copy(c, Path.Combine(PublishDirectory / ProjectName, new FileInfo(c).Name));
+                }
             }
         });
 

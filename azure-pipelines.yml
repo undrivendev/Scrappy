@@ -2,7 +2,7 @@ stages:
   - stage: build
     displayName: 'Build'
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: 'ubuntu-18.04'
     jobs:
       - job: build_test_package
         displayName: 'Build, Test, Package'
