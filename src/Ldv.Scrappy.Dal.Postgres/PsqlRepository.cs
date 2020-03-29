@@ -37,7 +37,7 @@ FROM
 WHERE
     rd.ruleid = @ruleId
 ORDER BY
-    rd. "" timestamp "" DESC
+    rd.""timestamp"" DESC
 LIMIT 1;
 ";
             return _mapper.Map<PsqlRuleDataDto, RuleData>(
@@ -65,10 +65,10 @@ SELECT
                 var sqlCreate = @"CREATE TABLE public.ruledata (
     id serial NOT NULL,
     ruleid text NOT NULL,
-    "" timestamp "" timestamp NOT NULL,
+    ""timestamp"" timestamp NOT NULL,
     value text NOT NULL,
     CONSTRAINT ruledata_pkey PRIMARY KEY (id),
-    CONSTRAINT ruledata_un UNIQUE (ruleid, "" timestamp "")
+    CONSTRAINT ruledata_un UNIQUE (ruleid, ""timestamp"")
 );
 ";
                 await conn.ExecuteAsync(sqlCreate);
