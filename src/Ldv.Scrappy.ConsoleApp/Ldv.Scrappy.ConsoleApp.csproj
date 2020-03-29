@@ -8,7 +8,6 @@
         <PublishSingleFile>true</PublishSingleFile>
         <RootNamespace>Ldv.Scrappy.ConsoleApp</RootNamespace>
         <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
-        <PublishTrimmed>true</PublishTrimmed>
     </PropertyGroup>
 
     <ItemGroup>
