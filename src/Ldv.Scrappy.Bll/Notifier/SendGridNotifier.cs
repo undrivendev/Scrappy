@@ -28,7 +28,7 @@ namespace Ldv.Scrappy.Bll
             var msg = MailHelper.CreateSingleEmailToMultipleRecipients(
                 new EmailAddress("scrappy@lucadallavalle.com"),
                 recipients,
-                "New Scrappy alert triggered!",
+                $"Scrappy alert: rule {rule.Id} triggered!",
                 message,
                 null);
             var response = await client.SendEmailAsync(msg);
