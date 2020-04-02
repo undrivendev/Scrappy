@@ -71,7 +71,7 @@ class Build : NukeBuild
         });
 
     Target Publish => _ => _
-        .DependsOn(Clean)
+        .DependsOn(Clean, Restore)
         .Executes(() =>
         {
             foreach (var ProjectName in ProjectNames)
@@ -103,8 +103,10 @@ class Build : NukeBuild
             foreach (var ProjectName in ProjectNames)
             {
                 Directory.CreateDirectory(ArtifactsDirectory / ProjectName);
-                ZipFile.CreateFromDirectory(PublishDirectory / ProjectName,
-                    ArtifactsDirectory / ProjectName / $"{ProjectName}-{GitVersion.MajorMinorPatch}.zip");
+                Utils.CreateTarGz(
+                    PublishDirectory / ProjectName, 
+                    ArtifactsDirectory / ProjectName / $"{ProjectName}-{GitVersion.MajorMinorPatch}.tar.gz", 
+                    $"{ProjectName}-{GitVersion.MajorMinorPatch}");
             }
         });
 }
