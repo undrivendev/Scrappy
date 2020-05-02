@@ -85,9 +85,8 @@ class Build : NukeBuild
                     .SetFileVersion(GitVersion.AssemblySemFileVer)
                     .SetInformationalVersion(GitVersion.MajorMinorPatch)
                     .EnableNoRestore());
-                var configurationFiles = Directory.GetFiles(project.Directory, "appsettings*");
                 var dockerfiles = Directory.GetFiles(project.Directory, "Dockerfile*");
-                foreach (var c in configurationFiles.Concat(dockerfiles))
+                foreach (var c in dockerfiles)
                 {
                     File.Copy(c, Path.Combine(PublishDirectory / ProjectName, new FileInfo(c).Name));
                 }

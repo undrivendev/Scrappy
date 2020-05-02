@@ -21,10 +21,8 @@ namespace Ldv.Scrappy.ConsoleApp
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(
-                    $"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Production"}.json",
-                    true)
                 .AddJsonFile("appsettings.json", false)
+                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Production"}.json", false, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .Build();
 
